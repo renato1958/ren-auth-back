@@ -15,10 +15,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-    res.send("<h1>Ciao, sono Arturo, il server che ce l'ha duro!</h1>");
-});
-
 const startServer = (async () => {
     try {
         await connectToDB();

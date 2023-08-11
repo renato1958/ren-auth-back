@@ -1,0 +1,42 @@
+{
+  "name": "ren-auth-back",
+  "version": "1.0.0",
+  "description": "Express Auth API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renato1958/ren-auth-back.git"
+  },
+  "keywords": [
+    "Express.js",
+    "Node.js",
+    "REST",
+    "API",
+    "jsonwebtoken",
+    "authorization",
+    "authentication",
+    "MongoDB"
+  ],
+  "author": "R. Felisi 2023",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/renato1958/ren-auth-back/issues"
+  },
+  "homepage": "https://github.com/renato1958/ren-auth-back#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.3",
+    "morgan": "^1.10.0"
+  }
+}

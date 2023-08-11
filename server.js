@@ -4,7 +4,7 @@ dotenv.config();
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
-import { connectToDB } from "./database/connection.js";
+import { connectToDB } from "./config/database.js";
 
 const app = express();
 

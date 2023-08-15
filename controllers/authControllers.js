@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
-import { userModel } from "../models/user.js"
+import { userModel } from "../models/user.js";
+import jwt from "jsonwebtoken";
 
 const signup = async (req, res) => {
     const { first_name, last_name, sex, date_of_birth, email, password, password_confirm } = req.body;
@@ -22,7 +23,46 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    await res.send("<h1>Autentica utente</h1>")
+    const { email, password } = req.body;
+    if(!email || !password ) return res.status(400).json({ Errore: "Inserisci email e password" });
+
+    const user = await userModel.findOne({ email });
+    if(!user) return res.status(401).json({ Errore: "Utente inesistente!" });
+
+    const match = await bcrypt.compare(password, user.password);
+    if(!match) return res.status(401).json({ Errore: "Password errata!" });
+
+    const accessToken = jwt.sign(
+        {
+            userid: user._id,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: "180s"
+        }
+    );
+
+    const refreshToken = jwt.sign(
+        {
+            userid: user._id,
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: "1d"
+        }
+    );
+
+    console.log(`Access Token: ${accessToken}`); // DEBUG
+    console.log(`Refresh Token: ${refreshToken}`); // DEBUG
+
+    user.refresh_token = refreshToken;
+    user.save();
+
+    res.cookie("refresh_token", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000});
+
+    res.json({ "Access Token": accessToken }); // DEBUG
+
+    //res.send("<h1>Login effettuato con successo</h1>")
 }
 
 const logout = async (req, res) => {

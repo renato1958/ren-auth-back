@@ -6,12 +6,13 @@ import logger from "morgan";
 import cors from "cors";
 import { connectToDB } from "./config/database.js";
 import authRouter from "./routes/api/auth.js";
+import { corsOptions } from "./config/cors.js";
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -26,7 +26,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     if(!email || !password ) return res.status(400).json({ Errore: "Inserisci email e password" });
 
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email }).exec();
     if(!user) return res.status(401).json({ Errore: "Utente inesistente!" });
 
     const match = await bcrypt.compare(password, user.password);
@@ -52,17 +52,12 @@ const login = async (req, res) => {
         }
     );
 
-    console.log(`Access Token: ${accessToken}`); // DEBUG
-    console.log(`Refresh Token: ${refreshToken}`); // DEBUG
-
     user.refresh_token = refreshToken;
     user.save();
 
-    res.cookie("refresh_token", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000});
+    res.cookie("refresh_token", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
 
-    res.json({ "Access Token": accessToken }); // DEBUG
-
-    //res.send("<h1>Login effettuato con successo</h1>")
+    res.json({ "Access Token": accessToken });
 }
 
 const logout = async (req, res) => {

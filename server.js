@@ -24,7 +24,8 @@ const startServer = (async () => {
         console.log("Collegamento con MongoDB stabilito con successo!");
         app.listen(port, () => {
             console.log(`Server in ascolto sulla porta ${ port }.\nCTRL+C per terminare.`)
-        })    } catch (error) {
+        })
+    } catch (error) {
         console.log("Impossibile connettersi a MongoDB. Server non avviato.")
     }
 })();
